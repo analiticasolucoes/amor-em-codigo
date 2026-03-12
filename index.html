@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amor em Código</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        #code-container {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            transition: opacity 1s ease;
+        }
+
+        #code-container.fade-out {
+            opacity: 0;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        #execute-btn {
+            display: none;
+            margin: 40px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transition: all 0.3s ease, opacity 1s ease;
+            text-align: center;
+        }
+
+        #execute-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+        }
+
+        #execute-btn:active {
+            transform: scale(0.98);
+        }
+
+        #execute-btn.fade-out {
+            opacity: 0;
+        }
+
+        .btn-container {
+            text-align: center;
+        }
+
+        /* Container do vídeo */
+        #video-container {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #video-container.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .video-title {
+            text-align: center;
+            color: #00ff00;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .video-wrapper {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
+        }
+
+        #love-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="code-container"></div>
+    <div class="btn-container">
+        <button id="execute-btn">EXECUTAR</button>
+    </div>
+
+    <div id="video-container">
+        <div class="video-title">❤ Nosso Amor em Código ❤</div>
+        <div class="video-wrapper">
+            <video id="love-video" controls>
+                <source src="video.mp4" type="video/mp4">
+                Seu navegador não suporta a reprodução de vídeo.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        const code = `const casal = {
+  inicio: new Date("2015-03-14"),
+  amor: Infinity,
+  projetos: ["viagens", "risadas", "planos",],
+  aniversario: 10,
+};
+console.log(\`Amor em constante atualização desde \${casal.inicio.getFullYear()} ❤\`);
+# Projeto: Amor_10_anos
+## Versão: 1.0.0
+- Autor: Palôma ❤
+- Contribuidor: [Ewerton]
+- Descrição: Sistema estável, com alta compatibilidade e uptime de 100%.
+> OUTPUT:
+"Prometo te amar até quando o Wi-Fi falhar."
+ > OUTPUT:
+"Você chegou como uma mensagem e virou minha história."
+Nosso código do amor`;
+
+        const container = document.getElementById('code-container');
+        const executeBtn = document.getElementById('execute-btn');
+        const videoContainer = document.getElementById('video-container');
+        const video = document.getElementById('love-video');
+        let index = 0;
+
+        function typeCode() {
+            if (index < code.length) {
+                const char = code[index];
+                const span = document.createElement('span');
+                span.textContent = char;
+                container.appendChild(span);
+                
+                index++;
+                
+                const delay = char === '\n' ? 100 : Math.random() * 50 + 30;
+                setTimeout(typeCode, delay);
+            } else {
+                setTimeout(() => {
+                    executeBtn.style.display = 'inline-block';
+                }, 500);
+            }
+        }
+
+        executeBtn.addEventListener('click', function() {
+            console.log('Botão EXECUTAR clicado');
+            
+            // Fade out do código e botão
+            container.classList.add('fade-out');
+            executeBtn.classList.add('fade-out');
+            
+            // Após 1 segundo, esconde código e mostra vídeo
+            setTimeout(() => {
+                container.style.display = 'none';
+                executeBtn.style.display = 'none';
+                
+                // Mostra o container do vídeo
+                videoContainer.classList.add('show');
+                
+                // Tenta reproduzir o vídeo
+                setTimeout(() => {
+                    video.play().then(() => {
+                        console.log('Vídeo iniciado com sucesso');
+                    }).catch(error => {
+                        console.log('Clique no vídeo para iniciar:', error);
+                    });
+                }, 500);
+            }, 1000);
+        });
+
+        window.addEventListener('load', () => {
+            console.log('Página carregada');
+            setTimeout(typeCode, 500);
+        });
+
+        video.addEventListener('loadeddata', () => {
+            console.log('Vídeo carregado com sucesso');
+        });
+
+        video.addEventListener('error', (e) => {
+            console.error('Erro ao carregar vídeo:', e);
+            console.error('Verifique se o arquivo video.mp4 existe no mesmo diretório do HTML');
+        });
+    </script>
+</body>
+</html>
